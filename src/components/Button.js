@@ -4,22 +4,6 @@ import {StyleSheet, TouchableOpacity, Text} from 'react-native';
 import propTypes from 'prop-types';
 
 export default function Button(props) {
-  const styles = StyleSheet.create({
-    buttonContainer: {
-      elevation: 8,
-      borderRadius: 10,
-      paddingVertical: 10,
-      paddingHorizontal: 12,
-    },
-    textButtonContainer: {
-      fontSize: 12,
-      color: '#fff',
-      fontWeight: '700',
-      alignSelf: 'center',
-      textTransform: 'uppercase',
-    },
-  });
-
   const isDisabled = props.isDisabled ? true : false;
 
   return (
@@ -48,3 +32,19 @@ Button.propTypes = {
   onPress: propTypes.func,
   isDisabled: propTypes.bool,
 };
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    elevation: 5,
+    borderRadius: 5,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+  },
+  textButtonContainer: {
+    fontSize: 12,
+    color: '#fff',
+    fontWeight: '700',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
+  },
+});
