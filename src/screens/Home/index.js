@@ -17,14 +17,18 @@ export default class HomeScreen extends Component {
       catOfBreeds: [],
       voteImages: [],
       isRefresh: false,
+      isLoaderVote: false,
+      isLoader: false,
     };
   }
 
   async callMostPicked() {
+    this.setState({isLoader: true});
     return await Axios.get('/images/search', {
       params: {...this.state.payload},
     }).then((res) => {
       this.setState({catsMostPicked: res.data});
+      this.setState({isLoader: false});
     });
   }
 
@@ -37,11 +41,13 @@ export default class HomeScreen extends Component {
   }
 
   async fetchVoteImages() {
+    this.setState({isLoaderVote: true});
     const payload = {...this.state.payload, page: 0, limit: 1};
     return await Axios.get('/images/search', {
       params: payload,
     }).then((res) => {
       this.setState({voteImages: res.data});
+      this.setState({isLoaderVote: false});
     });
   }
 
@@ -76,9 +82,11 @@ export default class HomeScreen extends Component {
         }>
         <CardProfile navigation={this.props.navigation}></CardProfile>
         <Cats
+          isLoader={this.state.isLoader}
           mostPicked={this.state.catsMostPicked}
           catOfBreeds={this.state.catOfBreeds}></Cats>
         <Vote
+          isLoader={this.state.isLoaderVote}
           fetchVoteImages={this.fetchVoteImages.bind(this)}
           voteImages={this.state.voteImages}></Vote>
       </ScrollView>
