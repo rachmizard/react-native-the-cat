@@ -43,9 +43,9 @@ export const CardProfile = (props) => {
             }}>
             <View>
               <Button
-                onPress={() => props.navigation.navigate('Order')}
+                onPress={() => props.navigation.navigate('Favourite')}
                 type="primary">
-                My Order
+                Favourites
               </Button>
             </View>
             <View>

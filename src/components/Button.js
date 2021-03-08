@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity, Text} from 'react-native';
 
-import propTypes from 'prop-types'
+import propTypes from 'prop-types';
 
 export default function Button(props) {
   const styles = StyleSheet.create({
@@ -20,8 +20,11 @@ export default function Button(props) {
     },
   });
 
+  const isDisabled = props.isDisabled ? true : false;
+
   return (
     <TouchableOpacity
+      disabled={isDisabled}
       style={[
         styles.buttonContainer,
         props.type === 'primary' && {
@@ -29,6 +32,9 @@ export default function Button(props) {
         },
         props.type === 'success' && {
           backgroundColor: '#9ccc65',
+        },
+        props.type === 'danger' && {
+          backgroundColor: '#d32f2f',
         },
       ]}
       onPress={props.onPress}>
@@ -38,6 +44,7 @@ export default function Button(props) {
 }
 
 Button.propTypes = {
-    type: propTypes.string,
-    onPress: propTypes.func
-}
+  type: propTypes.string,
+  onPress: propTypes.func,
+  isDisabled: propTypes.bool,
+};

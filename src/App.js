@@ -8,27 +8,16 @@
 
 import 'react-native-gesture-handler';
 
+import {NavigationContainer} from '@react-navigation/native';
+
 import React from 'react';
 
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import Router from './router';
 
-import {Home, Profile, Order} from './screens';
-
-const Stack = createStackNavigator();
-
-const App: () => React$Node = () => {
+const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode="screen">
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{title: 'The Cat Lover'}}
-        />
-        <Stack.Screen mode="modal" name="Profile" component={Profile} />
-        <Stack.Screen mode="modal" name="Order" component={Order} />
-      </Stack.Navigator>
+      <Router />
     </NavigationContainer>
   );
 };

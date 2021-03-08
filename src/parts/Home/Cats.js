@@ -95,7 +95,7 @@ export const Cats = (props) => {
                 }}>
                 {cat.name}
               </Text>
-              <Button type="primary">Meow me!</Button>
+              <Button type="success">Meow me!</Button>
             </View>
           </View>
         ))}
@@ -110,8 +110,8 @@ Cats.propTypes = {
 
 const styles = StyleSheet.create({
   imageWrapper: {
-    width: 180,
-    height: 180,
+    width: 130,
+    height: 130,
     alignSelf: 'center',
     borderRadius: 20,
   },
