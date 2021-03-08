@@ -12,7 +12,7 @@ export const Card = (props) => {
         shadowRadius: 5,
         borderRadius: 20,
         elevation: 2,
-        maxHeight: 'auto',
+        paddingVertical: 20
       }}>
       {props.children}
     </View>
