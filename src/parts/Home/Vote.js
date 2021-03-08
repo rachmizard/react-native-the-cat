@@ -8,6 +8,7 @@ import {Card} from '../../components/Card';
 import Button from '../../components/Button';
 import Axios from '../../config/axios';
 import {useState} from 'react';
+import LoaderIndicator from '../../components/LoaderIndicator';
 
 export const Vote = (props) => {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -46,51 +47,56 @@ export const Vote = (props) => {
         }}>
         Votes
       </Text>
-      {props.voteImages.map((cat, index) => (
-        <Card key={index}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              padding: 10,
-              margin: 10,
-              maxWidth: '100%',
-            }}>
-            <Image
-              source={{
-                uri: cat.url,
-              }}
-              style={styles.imgWrapper}></Image>
-            <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                }}>
-                <View style={{paddingRight: 5}}>
+      <Card>
+        {props.isLoader ? (
+          <LoaderIndicator isShow={props.isLoader} />
+        ) : (
+          props.voteImages.map((cat, index) => (
+            <View
+              key={index}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                padding: 10,
+                margin: 10,
+                maxWidth: '100%',
+              }}>
+              <Image
+                source={{
+                  uri: cat.url,
+                }}
+                style={styles.imgWrapper}></Image>
+              <View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                  }}>
+                  <View style={{paddingRight: 5}}>
+                    <Button
+                      onPress={() => handleVote(cat, 1)}
+                      type="primary"
+                      isDisabled={isDisabled}>
+                      <Icon name="heart" size={15} color="white">
+                        {' '}
+                        Love It
+                      </Icon>
+                    </Button>
+                  </View>
                   <Button
-                    onPress={() => handleVote(cat, 1)}
-                    type="primary"
+                    type="danger"
+                    onPress={() => handleVote(cat, 2)}
                     isDisabled={isDisabled}>
-                    <Icon name="heart" size={15} color="white">
+                    <Icon name="thumbs-down" size={15} color="white">
                       {' '}
-                      Love It
+                      Nope It
                     </Icon>
                   </Button>
                 </View>
-                <Button
-                  type="danger"
-                  onPress={() => handleVote(cat, 2)}
-                  isDisabled={isDisabled}>
-                  <Icon name="thumbs-down" size={15} color="white">
-                    {' '}
-                    Nope It
-                  </Icon>
-                </Button>
               </View>
             </View>
-          </View>
-        </Card>
-      ))}
+          ))
+        )}
+      </Card>
     </View>
   );
 };
@@ -101,8 +107,8 @@ const styles = StyleSheet.create({
   },
   imgWrapper: {
     width: 140,
-    height: 140,
-    borderRadius: 10,
+    height: 180,
+    borderRadius: 5,
     marginRight: 14,
   },
 });
