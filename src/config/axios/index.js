@@ -1,15 +1,15 @@
 import axios from 'axios';
 import {ToastAndroid} from 'react-native';
+import {Env} from '..';
 
 const Axios = axios.create({
-  baseURL: 'https://api.thecatapi.com/v1',
+  baseURL: Env.API_URL,
   params: {
-    sub_id: 'USERABC',
+    sub_id: Env.SUB_ID,
   },
 });
 
-Axios.defaults.headers.common['x-api-key'] =
-  'd82040a9-5732-44d3-85aa-a9c6280a145f';
+Axios.defaults.headers.common['x-api-key'] = Env.API_KEY;
 
 Axios.interceptors.request.use(
   (config) => {
