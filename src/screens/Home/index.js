@@ -79,6 +79,7 @@ export default class HomeScreen extends Component {
     return (
       <ScrollView
         ref={this.setScrollViewRef}
+        
         refreshControl={
           <RefreshControl
             refreshing={this.state.isRefresh}
