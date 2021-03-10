@@ -71,9 +71,14 @@ export default class HomeScreen extends Component {
     this.fetchVoteImages();
   }
 
+  setScrollViewRef = (element) => {
+    this.scrollViewRef = element;
+  };
+
   render() {
     return (
       <ScrollView
+        ref={this.setScrollViewRef}
         refreshControl={
           <RefreshControl
             refreshing={this.state.isRefresh}
@@ -82,7 +87,10 @@ export default class HomeScreen extends Component {
         }>
         <CardProfile navigation={this.props.navigation}></CardProfile>
         <Cats
+          navigation={this.props.navigation}
           isLoader={this.state.isLoader}
+          payload={this.state.payload}
+          onRefreshMostPicked={this.callMostPicked.bind(this)}
           mostPicked={this.state.catsMostPicked}
           catOfBreeds={this.state.catOfBreeds}></Cats>
         <Vote

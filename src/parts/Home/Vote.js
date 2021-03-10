@@ -9,6 +9,7 @@ import Button from '../../components/Button';
 import Axios from '../../config/axios';
 import {useState} from 'react';
 import LoaderIndicator from '../../components/LoaderIndicator';
+import {Env} from '../../config';
 
 export const Vote = (props) => {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -20,7 +21,7 @@ export const Vote = (props) => {
 
     const payload = {
       image_id: id,
-      sub_id: 'USERABC',
+      sub_id: Env.SUB_ID,
       value: vote,
     };
 
@@ -40,7 +41,14 @@ export const Vote = (props) => {
     <View style={styles.thumbWrapper}>
       <Text
         style={{
-          margin: 10,
+          fontSize: 24,
+          fontWeight: '700',
+          textAlign: 'center',
+        }}>
+        <Icon size={50} name="rocket" color="#b334Df"></Icon>
+      </Text>
+      <Text
+        style={{
           fontSize: 24,
           fontWeight: '700',
           textAlign: 'center',
@@ -55,11 +63,8 @@ export const Vote = (props) => {
             <View
               key={index}
               style={{
-                flexDirection: 'row',
                 alignItems: 'center',
-                padding: 10,
-                margin: 10,
-                maxWidth: '100%',
+                justifyContent: 'center',
               }}>
               <Image
                 source={{
@@ -70,6 +75,7 @@ export const Vote = (props) => {
                 <View
                   style={{
                     flexDirection: 'row',
+                    marginVertical: 10,
                   }}>
                   <View style={{paddingRight: 5}}>
                     <Button
@@ -104,12 +110,11 @@ export const Vote = (props) => {
 const styles = StyleSheet.create({
   thumbWrapper: {
     flex: 1,
+    marginHorizontal: 70,
   },
   imgWrapper: {
-    width: 140,
     height: 180,
-    borderRadius: 5,
-    marginRight: 14,
+    width: 180,
   },
 });
 

@@ -1,19 +1,56 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   ScrollView,
   StyleSheet,
   Text,
+  ToastAndroid,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Button from './../../components/Button';
 
 import propTypes from 'prop-types';
 import LoaderIndicator from '../../components/LoaderIndicator';
+import {Axios, Env} from '../../config';
 
 export const Cats = (props) => {
+  const [currentMyFav, setCurrentMyFav] = useState([]);
+
+  const handleFavourite = ({id}) => {
+    return Axios.post('/favourites', {
+      image_id: id,
+      sub_id: Env.SUB_ID,
+    }).then(() => fecthMyFav());
+  };
+
+  const handleUnFav = (imageId) => {
+    const {id} = currentMyFav.find((e) => e.image_id === imageId) || {};
+
+    return Axios.delete(`/favourites/${id}`)
+      .then(() => fecthMyFav())
+      .then(() =>
+        ToastAndroid.showWithGravity(
+          'Im so sad :(',
+          ToastAndroid.LONG,
+          ToastAndroid.CENTER,
+        ),
+      );
+  };
+
+  const fecthMyFav = () => {
+    return Axios.get('/favourites', props.payload).then(({data}) =>
+      setCurrentMyFav(data),
+    );
+  };
+
+  const isAlreadyFav = (id) => {
+    return currentMyFav.some((e) => e.image_id === id);
+  };
+
   return (
     <View style={{flex: 1}}>
       <Text
@@ -27,7 +64,7 @@ export const Cats = (props) => {
       {props.isLoader ? (
         <LoaderIndicator isShow={props.isLoader} />
       ) : (
-        <ScrollView horizontal={true}>
+        <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
           {props.mostPicked.map((cat, index) => (
             <View key={index} style={{paddingBottom: 20}}>
               <View
@@ -37,14 +74,14 @@ export const Cats = (props) => {
                   shadowColor: 'rgb(50,50,50)',
                   shadowOpacity: 0.5,
                   shadowRadius: 5,
-                  borderRadius: 20,
+                  borderRadius: 10,
                   elevation: 5,
                   maxHeight: 'auto',
                   alignSelf: 'center',
                 }}>
                 <TouchableWithoutFeedback
                   activeOpacity={0.5}
-                  onPress={() => alert('hayo')}>
+                  onPress={() => props.navigation.navigate('Favourite')}>
                   <Image
                     source={{uri: cat.url}}
                     resizeMode="cover"
@@ -52,7 +89,15 @@ export const Cats = (props) => {
                 </TouchableWithoutFeedback>
               </View>
               <View style={{alignSelf: 'center', width: 100}}>
-                <Button type="primary">Order Now</Button>
+                {isAlreadyFav(cat.id) ? (
+                  <Button type="primary" onPress={() => handleUnFav(cat.id)}>
+                    <Icon name="heart" color="red" size={20} />
+                  </Button>
+                ) : (
+                  <Button type="primary" onPress={() => handleFavourite(cat)}>
+                    Love Me!
+                  </Button>
+                )}
               </View>
             </View>
           ))}
@@ -69,7 +114,7 @@ export const Cats = (props) => {
       {props.isLoader ? (
         <LoaderIndicator isShow={props.isLoader} />
       ) : (
-        <ScrollView horizontal={true}>
+        <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
           {props.catOfBreeds.map((cat, index) => (
             <View key={index} style={{paddingBottom: 20}}>
               <View
@@ -79,14 +124,12 @@ export const Cats = (props) => {
                   shadowColor: 'rgb(50,50,50)',
                   shadowOpacity: 0.5,
                   shadowRadius: 5,
-                  borderRadius: 20,
+                  borderRadius: 10,
                   elevation: 5,
                   maxHeight: 'auto',
                   alignSelf: 'center',
                 }}>
-                <TouchableWithoutFeedback
-                  activeOpacity={0.5}
-                  onPress={() => alert('hayo')}>
+                <TouchableWithoutFeedback activeOpacity={1}>
                   <Image
                     source={{uri: cat.image ? cat.image.url : ''}}
                     resizeMode="cover"
@@ -115,14 +158,16 @@ export const Cats = (props) => {
 
 Cats.propTypes = {
   mostPicked: propTypes.array,
+  catOfBreeds: propTypes.array,
   isLoader: propTypes.bool,
 };
 
 const styles = StyleSheet.create({
   imageWrapper: {
-    width: 130,
-    height: 130,
+    width: 200,
+    height: 200,
     alignSelf: 'center',
-    borderRadius: 20,
+    justifyContent: 'center',
+    borderRadius: 10,
   },
 });
